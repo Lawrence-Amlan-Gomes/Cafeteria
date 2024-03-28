@@ -5,19 +5,19 @@ import deleteTableCol from "../functions.js/deleteTableCol";
 import editTable from "../functions.js/editTable";
 import { useEffect, useState } from "react";
 
-export default function EachEmployee({ props, setTrigar }) {
-  const [name, setName] = useState(props.name);
-  const [gender, setGender] = useState(props.gender);
+export default function EachRawMaterial({ props, setTrigar }) {
   const [isEditing, setIsEditing] = useState(false);
-  const [wage, setWage] = useState(props.wage);
-  const [w_type, setWtype] = useState(props.w_type);
-  const [phone, setPhone] = useState(props.phone);
-  const [w_id, setWid] = useState(props.w_id);
+  const [name, setName] = useState(props.name);
+  const [price, setPrice] = useState(props.price);
+  const [weight, setWeight] = useState(props.weight);
+  const [expiryDate, setExpiryDate] = useState(props.expiryDate);
+  const [f_id, setFid] = useState(props.f_id);
+  const [v_id, setVid] = useState(props.v_id);
 
   const handleDeleteTable = () => {
     const sureDelete = confirm("Are you want to delete this item?");
     if (sureDelete) {
-      deleteTableCol("Employees", props.fieldId);
+      deleteTableCol("RawMaterials", props.fieldId);
       setTrigar((prev) => !prev);
     }
   };
@@ -27,16 +27,16 @@ export default function EachEmployee({ props, setTrigar }) {
       {
         ...props,
         name: name,
-        gender: gender,
-        wage: wage,
-        w_type: w_type,
-        phone: phone,
-        w_id: w_id
+        weight: weight,
+        expiryDate: expiryDate,
+        f_id: f_id,
+        price: price,
+        v_id: v_id,
       },
-      "Employees",
+      "RawMaterials",
       props.fieldId
     );
-  }, [props, props.fieldId, wage, name, gender, w_type, phone, w_id]);
+  }, [props, props.fieldId, expiryDate, name, weight, f_id, price, v_id]);
 
   return (
     <div className="w-full h-[50px] mt-1">
@@ -56,61 +56,61 @@ export default function EachEmployee({ props, setTrigar }) {
 
       {isEditing ? (
         <input
-          onChange={(e) => setPhone(e.target.value)}
-          value={phone}
+          onChange={(e) => setPrice(e.target.value)}
+          value={price}
           className="float-left w-[11%] ml-[2%] mt-[1%] overflow-auto rounded-md bg-gray-700 pl-1"
         />
       ) : (
         <div className="float-left w-[11%] ml-[2%] mt-[1%] overflow-auto pl-1">
-          {phone}
+          {`${price} TK`}
         </div>
       )}
 
       {isEditing ? (
         <input
-          onChange={(e) => setGender(e.target.value)}
-          value={gender}
+          onChange={(e) => setWeight(e.target.value)}
+          value={weight}
           className="float-left w-[11%] ml-[2%] mt-[1%] overflow-auto rounded-md bg-gray-700 pl-1"
         />
       ) : (
         <div className="float-left w-[11%] ml-[2%] mt-[1%] overflow-auto pl-1">
-          {gender}
+          {`${weight} KG`}
         </div>
       )}
 
       {isEditing ? (
         <input
-          onChange={(e) => setWage(e.target.value)}
-          value={wage}
+          onChange={(e) => setExpiryDate(e.target.value)}
+          value={expiryDate}
           className="float-left w-[11%] ml-[2%] mt-[1%] overflow-auto rounded-md bg-gray-700 pl-1"
         />
       ) : (
         <div className="float-left w-[11%] ml-[2%] mt-[1%] overflow-auto pl-1">
-          {wage}
+          {expiryDate}
         </div>
       )}
 
       {isEditing ? (
         <input
-          onChange={(e) => setWtype(e.target.value)}
-          value={w_type}
+          onChange={(e) => setFid(e.target.value)}
+          value={f_id}
           className="float-left w-[11%] ml-[2%] mt-[1%] overflow-auto rounded-md bg-gray-700 pl-1"
         />
       ) : (
         <div className="float-left w-[11%] ml-[2%] mt-[1%] overflow-auto pl-1">
-          {w_type}
+          {f_id}
         </div>
       )}
 
       {isEditing ? (
         <input
-          onChange={(e) => setWid(e.target.value)}
-          value={w_id}
+          onChange={(e) => setVid(e.target.value)}
+          value={v_id}
           className="float-left w-[10%] ml-[2%] mt-[1%] overflow-auto rounded-md bg-gray-700 pl-1"
         />
       ) : (
         <div className="float-left w-[10%] ml-[2%] mt-[1%] overflow-auto pl-1">
-          {w_id}
+          {v_id}
         </div>
       )}
 

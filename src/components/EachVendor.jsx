@@ -5,18 +5,19 @@ import deleteTableCol from "../functions.js/deleteTableCol";
 import editTable from "../functions.js/editTable";
 import { useEffect, useState } from "react";
 
-export default function EachFood({ props, setTrigar }) {
-  const [uiPrice, setUiPrice] = useState(Number(props.price));
-  const [uiQuantity, setUiQuantity] = useState(Number(props.quantity));
+export default function EachVendor({ props, setTrigar }) {
   const [isEditing, setIsEditing] = useState(false);
-  const [uiMid, setUiMid] = useState(props.m_id);
+  const [name, setName] = useState(props.name);
+  const [address, setUiType] = useState(props.address);
+  const [phone, setPhone] = useState(props.phone);
+  const [website, setWebsite] = useState(props.website);
   const [uiRid, setUiRid] = useState(props.r_id);
-  const [uiType, setUiType] = useState(props.type);
+  
 
   const handleDeleteTable = () => {
     const sureDelete = confirm("Are you want to delete this item?");
     if (sureDelete) {
-      deleteTableCol("Foods", props.fieldId);
+      deleteTableCol("Vendors", props.fieldId);
       setTrigar((prev) => !prev);
     }
   };
@@ -25,16 +26,16 @@ export default function EachFood({ props, setTrigar }) {
     editTable(
       {
         ...props,
-        price: uiPrice,
-        quantity: uiQuantity,
-        m_id: uiMid,
+        name: name,
+        phone: phone,
+        website: website,
         r_id: uiRid,
-        type: uiType,
+        address: address,
       },
-      "Foods",
+      "Vendors",
       props.fieldId
     );
-  }, [props, props.fieldId, uiMid, uiPrice, uiQuantity, uiRid, uiType]);
+  }, [props, props.fieldId, website, name, phone, uiRid, address]);
 
   return (
     <div className="w-full h-[50px] mt-1">
@@ -42,49 +43,49 @@ export default function EachFood({ props, setTrigar }) {
 
       {isEditing ? (
         <input
-          onChange={(e) => setUiPrice(e.target.value)}
-          value={uiPrice}
+          onChange={(e) => setName(e.target.value)}
+          value={name}
           className="float-left w-[13%] ml-[2%] mt-[1%] overflow-auto rounded-md bg-gray-700 pl-1"
         />
       ) : (
         <div className="float-left w-[13%] ml-[2%] mt-[1%] overflow-auto pl-1">
-          {`${uiPrice} TK`}
+          {name}
         </div>
       )}
 
       {isEditing ? (
         <input
           onChange={(e) => setUiType(e.target.value)}
-          value={uiType}
+          value={address}
           className="float-left w-[13%] ml-[2%] mt-[1%] overflow-auto rounded-md bg-gray-700 pl-1"
         />
       ) : (
         <div className="float-left w-[13%] ml-[2%] mt-[1%] overflow-auto pl-1">
-          {uiType}
+          {address}
         </div>
       )}
 
       {isEditing ? (
         <input
-          onChange={(e) => setUiQuantity(e.target.value)}
-          value={uiQuantity}
+          onChange={(e) => setPhone(e.target.value)}
+          value={phone}
           className="float-left w-[13%] ml-[2%] mt-[1%] overflow-auto rounded-md bg-gray-700 pl-1"
         />
       ) : (
         <div className="float-left w-[13%] ml-[2%] mt-[1%] overflow-auto pl-1">
-          {uiQuantity}
+          {phone}
         </div>
       )}
 
       {isEditing ? (
         <input
-          onChange={(e) => setUiMid(e.target.value)}
-          value={uiMid}
+          onChange={(e) => setWebsite(e.target.value)}
+          value={website}
           className="float-left w-[13%] ml-[2%] mt-[1%] overflow-auto rounded-md bg-gray-700 pl-1"
         />
       ) : (
         <div className="float-left w-[13%] ml-[2%] mt-[1%] overflow-auto pl-1">
-          {uiMid}
+          {website}
         </div>
       )}
 
