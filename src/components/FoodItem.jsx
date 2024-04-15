@@ -50,7 +50,7 @@ export default function FoodItem({ isAdmin }) {
       <div className="h-[50px] bg-[#03004E] rounded-md pt-3">
         <div className="w-[13%] ml-[2%] float-left pl-1">ID</div>
         <div className="w-[13%] ml-[2%] float-left pl-1">Price</div>
-        <div className="w-[13%] ml-[2%] float-left pl-1">Type</div>
+        <div className="w-[13%] ml-[2%] float-left pl-1">Name</div>
         <div className="w-[13%] ml-[2%] float-left pl-1">Quantity</div>
         <div className="w-[13%] ml-[2%] float-left pl-1">Member ID</div>
         <div className="w-[13%] ml-[2%] float-left pl-1">Raw Material</div>
