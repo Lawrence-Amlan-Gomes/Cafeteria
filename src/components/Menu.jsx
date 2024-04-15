@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import MenuItem from "./MenuItem";
 import { useNavigate } from "react-router-dom";
 
-export default function Menu() {
+export default function Menu({ isAdmin }) {
   const [active, setActive] = useState("Home");
   const [reload, setReload] = useState(true);
   const navigate = useNavigate();
@@ -12,7 +12,7 @@ export default function Menu() {
       navigate("/");
     }
   }, [navigate, reload]);
-  return (
+  return isAdmin ? (
     <div className="w-full h-[15%] bg-[#060513] flex justify-center items-center text-gray-300">
       <MenuItem
         navigateTo="/"
@@ -66,6 +66,22 @@ export default function Menu() {
       <MenuItem
         navigateTo="/payment"
         text="Payment"
+        setActive={setActive}
+        active={active}
+        setReload={setReload}
+      />
+    </div>
+  ) : (
+    <div className="w-full h-[15%] bg-[#060513] flex justify-center items-center text-gray-300">
+      <MenuItem
+        navigateTo="/"
+        text="Home"
+        setActive={setActive}
+        active={active}
+      />
+      <MenuItem
+        navigateTo="/foodItem"
+        text="Food Items"
         setActive={setActive}
         active={active}
         setReload={setReload}

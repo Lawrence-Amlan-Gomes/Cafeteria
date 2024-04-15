@@ -5,7 +5,9 @@ import deleteTableCol from "../functions.js/deleteTableCol";
 import editTable from "../functions.js/editTable";
 import { useEffect, useState } from "react";
 
-export default function EachFood({ props, setTrigar }) {
+
+export default function EachFood({ props, setTrigar, isAdmin }) {
+
   const [uiPrice, setUiPrice] = useState(Number(props.price));
   const [uiQuantity, setUiQuantity] = useState(Number(props.quantity));
   const [isEditing, setIsEditing] = useState(false);
@@ -35,6 +37,8 @@ export default function EachFood({ props, setTrigar }) {
       props.fieldId
     );
   }, [props, props.fieldId, uiMid, uiPrice, uiQuantity, uiRid, uiType]);
+
+  
 
   return (
     <div className="w-full h-[50px] mt-1">
@@ -100,27 +104,31 @@ export default function EachFood({ props, setTrigar }) {
         </div>
       )}
 
-      <div className="mt-[1.2%]  w-[10%]  flex justify-center items-center float-left">
-        {isEditing ? (
-          <img
-            className="w-5 mr-3"
-            src={doneIcon}
-            onClick={() => setIsEditing(false)}
-          />
-        ) : (
-          <img
-            className="w-5 mr-3"
-            src={editIcon}
-            onClick={() => setIsEditing(true)}
-          />
-        )}
+      {isAdmin ? (
+        <div className="mt-[1.2%]  w-[10%]  flex justify-center items-center float-left">
+          {isEditing ? (
+            <img
+              className="w-5 mr-3"
+              src={doneIcon}
+              onClick={() => setIsEditing(false)}
+            />
+          ) : (
+            <img
+              className="w-5 mr-3"
+              src={editIcon}
+              onClick={() => setIsEditing(true)}
+            />
+          )}
 
-        <img
-          onClick={handleDeleteTable}
-          className="w-5 ml-3"
-          src={deleteIcon}
-        />
-      </div>
+          <img
+            onClick={handleDeleteTable}
+            className="w-5 ml-3"
+            src={deleteIcon}
+          />
+        </div>
+      ) : (
+        <></>
+      )}
     </div>
   );
 }
