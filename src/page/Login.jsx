@@ -3,8 +3,10 @@ import { NavLink } from "react-router-dom";
 import FieldSet from "../components/FieldSet";
 import Field from "../components/Field";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 const Login = ({setLoginRegis, setIsLogedIn, setIsAdmin}) => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -22,8 +24,11 @@ const Login = ({setLoginRegis, setIsLogedIn, setIsAdmin}) => {
       console.log(response)
       if (formData.email == "admin@gmail.com" && formData.password == "admin12345") {
         setIsAdmin(true)
+      }else{
+        setIsAdmin(false)
       }
       setIsLogedIn(true)
+      navigate("/")
     } catch (error) {
       console.log(error);
       setError("root.random", {

@@ -41,7 +41,7 @@ export default function EachMember({ props, setTrigar }) {
   }, [props, props.fieldId, address, name, email, type, phone, expenses, dob]);
 
   return (
-    <div className="w-full h-[50px] mt-1">
+    <div className="w-full h-[50px] mt-8">
       <div className="float-left w-[9%] ml-[2%] mt-[1%] pl-1">{props.id}</div>
 
       {isEditing ? (

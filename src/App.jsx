@@ -12,14 +12,20 @@ import Register from "./page/Register";
 import { Route, Routes } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Cart from "./components/Cart";
+import Profile from "./components/Profile";
 
 export default function App() {
   const navigate = useNavigate();
   // eslint-disable-next-line no-unused-vars
   const [isLogedIn, setIsLogedIn] = useState(false);
   const [loginRegis, setLoginRegis] = useState("/login");
-  const [isAdmin, setIsAdmin] = useState(false)
-  
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [cart, setCart] = useState({
+    items: [],
+    totalPrice: 0,
+  });
+
   useEffect(() => {
     if (!isLogedIn) {
       navigate(loginRegis);
@@ -29,26 +35,51 @@ export default function App() {
 
   return isLogedIn ? (
     <div className="text-white bg-[#0A0C1F] h-screen w-screen scroll-smooth dark">
-      <Menu isAdmin={isAdmin}/>
+      <Menu isAdmin={isAdmin} setIsLogedIn={setIsLogedIn}/>
       <div className="w-full h-[85%] p-5 overflow-auto">
         <Routes>
-          <Route path="/" element={<Home isLogedIn={isLogedIn}/>} />
-          <Route path="/foodItem" element={<FoodItem isAdmin={isAdmin} />} />
+          <Route
+            path="/"
+            element={<Home isLogedIn={isLogedIn} isAdmin={isAdmin} />}
+          />
+          <Route
+            path="/foodItem"
+            element={
+              <FoodItem isAdmin={isAdmin} setCart={setCart} cart={cart} />
+            }
+          />
           <Route path="/employee" element={<Employee />} />
           <Route path="/rawMaterial" element={<RawMaterial />} />
           <Route path="/member" element={<Member />} />
           <Route path="/payment" element={<Payment />} />
           <Route path="/vendor" element={<Vendor />} />
           <Route path="/workingHour" element={<Works />} />
+          <Route path="/cart" element={<Cart cart={cart} setCart={setCart} />} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
       </div>
     </div>
   ) : (
-    <div className="flex justify-center items-center h-[700px] text-white bg-[#0A0C1F]">
+    <div className={loginRegis == "/register" ? "flex justify-center items-center h-[900px] text-white bg-[#0A0C1F]" : "flex justify-center items-center h-[700px] text-white bg-[#0A0C1F]"}>
       <Routes>
-        <Route path="/" element={<Home isLogedIn={isLogedIn}/>} />
-        <Route path="/login" element={<Login setIsLogedIn={setIsLogedIn} setLoginRegis={setLoginRegis} setIsAdmin={setIsAdmin}/> } />
-        <Route path="/register" element={<Register setLoginRegis={setLoginRegis}/>} />
+        <Route
+          path="/"
+          element={<Home isLogedIn={isLogedIn} isAdmin={isAdmin} />}
+        />
+        <Route
+          path="/login"
+          element={
+            <Login
+              setIsLogedIn={setIsLogedIn}
+              setLoginRegis={setLoginRegis}
+              setIsAdmin={setIsAdmin}
+            />
+          }
+        />
+        <Route
+          path="/register"
+          element={<Register setLoginRegis={setLoginRegis} />}
+        />
       </Routes>
     </div>
   );

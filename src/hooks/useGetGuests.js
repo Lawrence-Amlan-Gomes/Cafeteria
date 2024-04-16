@@ -5,7 +5,7 @@ import { db } from "../firebase";
 export default function useGetGuests() {
     const [guestsArr, setGuestsArr] = useState([]);
     const guests = async () => {
-        const querySnapshot = await getDocs(collection(db, "Guests"));
+        const querySnapshot = await getDocs(collection(db, "Members"));
         const newGuestArr = [];
         querySnapshot.forEach((doc) => {
           // doc.data() is never undefined for query doc snapshots

@@ -1,13 +1,17 @@
 import { registerWithEmailAndPassword, db } from "../firebase";
 import { NavLink } from "react-router-dom";
 import FieldSet from "../components/FieldSet";
+import useGetData from "../hooks/useGetData";
 import Field from "../components/Field";
 import { useForm } from "react-hook-form";
 import { collection, addDoc } from "firebase/firestore";
 import { useState } from "react";
 
 const Register = ({setLoginRegis}) => {
+  const [dataArr, setTrigar] = useGetData("Members");
   const [isTyping, setIsTyping] = useState(false);
+
+  const newId = `M${dataArr.length + 1}`
 
   const typing = () => {
     setIsTyping(true);
@@ -28,14 +32,22 @@ const Register = ({setLoginRegis}) => {
       try {
         const response = await registerWithEmailAndPassword(
           formData.email,
-          formData.password
+          formData.password,
+          formData.address,
+          formData.dob,
+          formData.phone
         );
-        await addDoc(collection(db, "Guests"), {
+        await addDoc(collection(db, "Members"), {
+          id: newId,
           name: formData.name,
           email: formData.email,
-          photo: false,
-          bio: "add your bio",
+          address: formData.address,
+          phone: formData.phone,
+          dob: formData.dob,
+          expenses: 0,
+          type: "Active",
         });
+        setTrigar((prev)=>!prev);
         console.log(response);
         setLoginRegis("/login");
       } catch (error) {
@@ -77,6 +89,45 @@ const Register = ({setLoginRegis}) => {
                 name="email"
                 id="email"
                 placeholder="Enter email address"
+                onChange={typing}
+              />
+            </Field>
+            <Field label="Address" error={errors.address}>
+              <input
+                {...register("address", { required: "Address is required." })}
+                className={`p-2 border box-border w-[300px] rounded-md text-blue-950 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 ${
+                  !errors.address ? "border-gray-200" : "border-red-500"
+                }`}
+                type="address"
+                name="address"
+                id="address"
+                placeholder="Enter address"
+                onChange={typing}
+              />
+            </Field>
+            <Field label="Phone" error={errors.phone}>
+              <input
+                {...register("phone", { required: "Phone number is required." })}
+                className={`p-2 border box-border w-[300px] rounded-md text-blue-950 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 ${
+                  !errors.phone ? "border-gray-200" : "border-red-500"
+                }`}
+                type="phone"
+                name="phone"
+                id="phone"
+                placeholder="Enter phone number"
+                onChange={typing}
+              />
+            </Field>
+            <Field label="Date Of Birth" error={errors.dob}>
+              <input
+                {...register("dob", { required: "Phone number is required." })}
+                className={`p-2 border box-border w-[300px] rounded-md text-blue-950 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 ${
+                  !errors.dob ? "border-gray-200" : "border-red-500"
+                }`}
+                type="dob"
+                name="dob"
+                id="dob"
+                placeholder="Enter Date of Birth"
                 onChange={typing}
               />
             </Field>

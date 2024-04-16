@@ -1,17 +1,19 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import MenuItem from "./MenuItem";
-import { useNavigate } from "react-router-dom";
 
-export default function Menu({ isAdmin }) {
+
+export default function Menu({ isAdmin, setIsLogedIn }) {
   const [active, setActive] = useState("Home");
-  const [reload, setReload] = useState(true);
-  const navigate = useNavigate();
 
-  useEffect(() => {
-    if (reload) {
-      navigate("/");
+
+
+
+  const LogOut = () => {
+    const ok = confirm("Are you want to Log Out?");
+    if (ok) {
+      setIsLogedIn(false);
     }
-  }, [navigate, reload]);
+  };
   return isAdmin ? (
     <div className="w-full h-[15%] bg-[#060513] flex justify-center items-center text-gray-300">
       <MenuItem
@@ -25,21 +27,21 @@ export default function Menu({ isAdmin }) {
         text="Food Items"
         setActive={setActive}
         active={active}
-        setReload={setReload}
+ 
       />
       <MenuItem
         navigateTo="/employee"
         text="Employees"
         setActive={setActive}
         active={active}
-        setReload={setReload}
+
       />
       <MenuItem
         navigateTo="/member"
         text="Members"
         setActive={setActive}
         active={active}
-        setReload={setReload}
+
       />
 
       <MenuItem
@@ -47,32 +49,47 @@ export default function Menu({ isAdmin }) {
         text="Vendors"
         setActive={setActive}
         active={active}
-        setReload={setReload}
+  
       />
       <MenuItem
         navigateTo="/rawmaterial"
         text="Raw Materials"
         setActive={setActive}
         active={active}
-        setReload={setReload}
+     
       />
       <MenuItem
         navigateTo="/workingHour"
         text="Works"
         setActive={setActive}
         active={active}
-        setReload={setReload}
+      
       />
       <MenuItem
         navigateTo="/payment"
         text="Payment"
         setActive={setActive}
         active={active}
-        setReload={setReload}
+    
       />
+      <button
+        className="bg-gray-400 p-2 rounded-md text-black hover:bg-red-800 hover:text-white absolute right-5"
+        onClick={LogOut}
+      >
+        Log Out
+      </button>
     </div>
   ) : (
-    <div className="w-full h-[15%] bg-[#060513] flex justify-center items-center text-gray-300">
+    <div className="w-full h-[15%] bg-[#060513] flex justify-center items-center float-left text-gray-300">
+      <div className="absolute left-5 bg-gray-400 p-2 rounded-md text-black hover:bg-green-800 hover:text-white">
+        <MenuItem
+          navigateTo="/profile"
+          text="Profile"
+          setActive={setActive}
+          active={active}
+        />
+      </div>
+
       <MenuItem
         navigateTo="/"
         text="Home"
@@ -84,8 +101,21 @@ export default function Menu({ isAdmin }) {
         text="Food Items"
         setActive={setActive}
         active={active}
-        setReload={setReload}
+
       />
+      <MenuItem
+        navigateTo="/cart"
+        text="Cart"
+        setActive={setActive}
+        active={active}
+      
+      />
+      <button
+        className="bg-gray-400 p-2 rounded-md text-black hover:bg-red-800 hover:text-white absolute right-5"
+        onClick={LogOut}
+      >
+        Log Out
+      </button>
     </div>
   );
 }
