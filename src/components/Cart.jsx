@@ -1,12 +1,19 @@
 import useGetCurrentUser from "../hooks/useGetCurrentUser";
 import editTable from "../functions.js/editTable";
+import addColumn from "../functions.js/addColumn";
 import useGetData from "../hooks/useGetData";
+import { useEffect, useState } from "react";
 
-export default function Cart({ cart, setCart }) {
+export default function Cart({ cart, setCart, today }) {
   const userInfo = useGetCurrentUser();
-  // eslint-disable-next-line no-unused-vars
   const [memberArr] = useGetData("Members");
   const [FoodArr] = useGetData("Foods");
+  const [PaymentArr, setTrigar] = useGetData("Payment");
+  const [uiPayArr, setUiPayArr] = useState([]);
+
+  useEffect(() => {
+    setUiPayArr(PaymentArr);
+  }, [PaymentArr, uiPayArr]);
 
   const { items, totalPrice } = cart;
   let isZero = true;
@@ -18,14 +25,13 @@ export default function Cart({ cart, setCart }) {
 
   const Payment = () => {
     if (totalPrice > 0) {
-      const ok = confirm(`${totalPrice} TK Will be debited from your BKash account, Are you sure to pay right now?`);
+      const ok = confirm(
+        `${totalPrice} TK Will be debited from your BKash account, Are you sure to pay right now?`
+      );
       if (ok) {
         setTimeout(() => {
           for (let i of memberArr) {
             if (i.email == userInfo.email) {
-              console.log(i);
-              console.log(totalPrice);
-              console.log(i.expenses);
               editTable(
                 { ...i, expenses: i.expenses + totalPrice },
                 "Members",
@@ -33,7 +39,6 @@ export default function Cart({ cart, setCart }) {
               );
             }
           }
-
           for (let i of items) {
             for (let j of FoodArr) {
               if (i.name == j.type) {
@@ -44,6 +49,29 @@ export default function Cart({ cart, setCart }) {
                 );
               }
             }
+          }
+          ///
+          const allDates = [];
+          for (let i of uiPayArr) {
+            allDates.push(i.date);
+          }
+          ///
+          if (allDates.includes(today)) {
+            for(let i of uiPayArr){
+              if(today == i.date){
+                editTable(
+                  { ...i, amount: i.amount + totalPrice },
+                  "Payment",
+                  i.fieldId
+                );
+              }
+            }
+          } else {
+            addColumn(
+              { date: today, type: "Online", amount: totalPrice },
+              "Payment"
+            );
+            setTrigar((prev) => !prev);
           }
           setCart({ items: [], totalPrice: 0 });
         }, 2000);

@@ -17,10 +17,17 @@ import Profile from "./components/Profile";
 
 export default function App() {
   const navigate = useNavigate();
-  // eslint-disable-next-line no-unused-vars
   const [isLogedIn, setIsLogedIn] = useState(false);
   const [loginRegis, setLoginRegis] = useState("/login");
   const [isAdmin, setIsAdmin] = useState(false);
+
+  var today = new Date();
+  var dd = String(today.getDate()).padStart(2, "0");
+  var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+  var yyyy = today.getFullYear();
+  today = dd + "." + mm + "." + yyyy;
+
+
   const [cart, setCart] = useState({
     items: [],
     totalPrice: 0,
@@ -31,11 +38,10 @@ export default function App() {
       navigate(loginRegis);
     }
   }, [navigate, isLogedIn, loginRegis]);
-  // eslint-disable-next-line no-unused-vars
 
   return isLogedIn ? (
     <div className="text-white bg-[#0A0C1F] h-screen w-screen scroll-smooth dark">
-      <Menu isAdmin={isAdmin} setIsLogedIn={setIsLogedIn}/>
+      <Menu isAdmin={isAdmin} setIsLogedIn={setIsLogedIn} />
       <div className="w-full h-[85%] p-5 overflow-auto">
         <Routes>
           <Route
@@ -54,13 +60,22 @@ export default function App() {
           <Route path="/payment" element={<Payment />} />
           <Route path="/vendor" element={<Vendor />} />
           <Route path="/workingHour" element={<Works />} />
-          <Route path="/cart" element={<Cart cart={cart} setCart={setCart} />} />
+          <Route
+            path="/cart"
+            element={<Cart cart={cart} setCart={setCart} today={today}/>}
+          />
           <Route path="/profile" element={<Profile />} />
         </Routes>
       </div>
     </div>
   ) : (
-    <div className={loginRegis == "/register" ? "flex justify-center items-center h-[900px] text-white bg-[#0A0C1F]" : "flex justify-center items-center h-[700px] text-white bg-[#0A0C1F]"}>
+    <div
+      className={
+        loginRegis == "/register"
+          ? "flex justify-center items-center h-[900px] text-white bg-[#0A0C1F]"
+          : "flex justify-center items-center h-[700px] text-white bg-[#0A0C1F]"
+      }
+    >
       <Routes>
         <Route
           path="/"

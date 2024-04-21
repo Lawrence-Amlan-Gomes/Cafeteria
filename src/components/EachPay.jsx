@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 
 export default function EachPay({ props, setTrigar }) {
   const [isEditing, setIsEditing] = useState(false);
-  const [m_id, setMid] = useState(props.m_id);
+  const [date, setDeate] = useState(props.date);
   const [type, setType] = useState(props.type);
   const [amount, setAmount] = useState(props.amount);
   
@@ -26,26 +26,28 @@ export default function EachPay({ props, setTrigar }) {
       {
         ...props,
         type: type,
-        m_id: m_id,
+        date: date,
         amount: amount,
       },
       "Payment",
       props.fieldId
     );
-  }, [props, props.fieldId, m_id, type, amount]);
+  }, [props, props.fieldId, date, type, amount]);
 
   return (
     <div className="w-full h-[50px] mt-1">
 
+
+
       {isEditing ? (
         <input
-          onChange={(e) => setMid(e.target.value)}
-          value={m_id}
+          onChange={(e) => setDeate(e.target.value)}
+          value={date}
           className="float-left w-[28%] ml-[2%] mt-[1%] overflow-auto rounded-md bg-gray-700 pl-1"
         />
       ) : (
         <div className="float-left w-[28%] ml-[2%] mt-[1%] overflow-auto pl-1">
-          {m_id}
+          {date}
         </div>
       )}
 
