@@ -10,12 +10,12 @@ export default function Cart({ cart, setCart, today }) {
   const [FoodArr] = useGetData("Foods");
   const [PaymentArr, setTrigar] = useGetData("Payment");
   const [uiPayArr, setUiPayArr] = useState([]);
+  const [isBirthDay, setIsBirthDay] = useState(false);
+  const [isMoreExpense, setIsMoreExpense] = useState(false);
+  const [isDiscount, setIsDiscount] = useState(false);
+  const [uiPrice, setUiPrice] = useState(0)
 
-  useEffect(() => {
-    setUiPayArr(PaymentArr);
-  }, [PaymentArr, uiPayArr]);
-
-  const { items, totalPrice } = cart;
+  let { items, totalPrice } = cart;
   let isZero = true;
   if (items.length == 0) {
     isZero = false;
@@ -23,17 +23,44 @@ export default function Cart({ cart, setCart, today }) {
     isZero = true;
   }
 
+  useEffect(()=>{
+    if(isMoreExpense || isBirthDay){
+      setIsDiscount(true)
+      setUiPrice(totalPrice - totalPrice*10/100)
+    }else{
+      setUiPrice(totalPrice)
+    }
+  },[isBirthDay, isMoreExpense, totalPrice])
+
+
+  useEffect(() => {
+    setUiPayArr(PaymentArr);
+  }, [PaymentArr, uiPayArr]);
+
+  useEffect(() => {
+    if (userInfo) {
+      if (userInfo.dob.slice(0, 5) == today.slice(0, 5)) {
+        setIsBirthDay(true);
+      }
+      if (userInfo.expenses > 2000) {
+        setIsMoreExpense(true);
+      }
+    }
+  }, [today, userInfo]);
+
+  
+
   const Payment = () => {
-    if (totalPrice > 0) {
+    if (uiPrice > 0) {
       const ok = confirm(
-        `${totalPrice} TK Will be debited from your BKash account, Are you sure to pay right now?`
+        `${uiPrice} TK Will be debited from your BKash account, Are you sure to pay right now?`
       );
       if (ok) {
         setTimeout(() => {
           for (let i of memberArr) {
             if (i.email == userInfo.email) {
               editTable(
-                { ...i, expenses: i.expenses + totalPrice },
+                { ...i, expenses: i.expenses + uiPrice },
                 "Members",
                 i.fieldId
               );
@@ -57,10 +84,10 @@ export default function Cart({ cart, setCart, today }) {
           }
           ///
           if (allDates.includes(today)) {
-            for(let i of uiPayArr){
-              if(today == i.date){
+            for (let i of uiPayArr) {
+              if (today == i.date) {
                 editTable(
-                  { ...i, amount: i.amount + totalPrice },
+                  { ...i, amount: i.amount + uiPrice },
                   "Payment",
                   i.fieldId
                 );
@@ -68,7 +95,7 @@ export default function Cart({ cart, setCart, today }) {
             }
           } else {
             addColumn(
-              { date: today, type: "Online", amount: totalPrice },
+              { date: today, type: "Online", amount: uiPrice },
               "Payment"
             );
             setTrigar((prev) => !prev);
@@ -78,6 +105,7 @@ export default function Cart({ cart, setCart, today }) {
       }
     }
   };
+
   return (
     <div className="h-full w-full flex justify-center items-center">
       <div className="border-2 border-gray-700 w-[50%] p-5 rounded-lg">
@@ -108,8 +136,16 @@ export default function Cart({ cart, setCart, today }) {
         )}
 
         <div className="w-full text-center text-2xl mt-5 float-left text-green-600">
-          Total {totalPrice} TK
+          Total {uiPrice} TK
         </div>
+
+        {isDiscount ? (
+          <div className="w-full text-center text-2xl mt-5 float-left text-yellow-600">
+            10% discount is available for you today
+          </div>
+        ) : (
+          <></>
+        )}
 
         <div>
           <button

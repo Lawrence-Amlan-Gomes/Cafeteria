@@ -27,7 +27,6 @@ export default function App() {
   var yyyy = today.getFullYear();
   today = dd + "." + mm + "." + yyyy;
 
-
   const [cart, setCart] = useState({
     items: [],
     totalPrice: 0,
@@ -62,7 +61,7 @@ export default function App() {
           <Route path="/workingHour" element={<Works />} />
           <Route
             path="/cart"
-            element={<Cart cart={cart} setCart={setCart} today={today}/>}
+            element={<Cart cart={cart} setCart={setCart} today={today} />}
           />
           <Route path="/profile" element={<Profile />} />
         </Routes>
