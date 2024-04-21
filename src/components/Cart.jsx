@@ -26,7 +26,7 @@ export default function Cart({ cart, setCart, today }) {
   useEffect(()=>{
     if(isMoreExpense || isBirthDay){
       setIsDiscount(true)
-      setUiPrice(totalPrice - totalPrice*10/100)
+      setUiPrice(Math.round(totalPrice - totalPrice*10/100))
     }else{
       setUiPrice(totalPrice)
     }
