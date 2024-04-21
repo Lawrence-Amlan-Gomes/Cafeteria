@@ -112,6 +112,7 @@ export default function FoodItem({ isAdmin, setCart, cart }) {
               imgUrl = {food.imgUrl}
               type = {food.type}
               price = {food.price}
+              quantity = {food.quantity}
               setCart = {setCart}
               cart = {cart}
             />

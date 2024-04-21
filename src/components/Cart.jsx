@@ -5,18 +5,8 @@ import useGetData from "../hooks/useGetData";
 export default function Cart({ cart, setCart }) {
   const userInfo = useGetCurrentUser();
   // eslint-disable-next-line no-unused-vars
-  const [dataArr, setTrigar] = useGetData("Members");
-  console.log(dataArr);
-  console.log(userInfo);
-
-  if (userInfo) {
-    for (let i of dataArr) {
-      if (i.email == userInfo.email) {
-        editTable({ ...i }, "Members", i.fieldId);
-      }
-    }
-  }
-
+  const [memberArr] = useGetData("Members");
+  const [FoodArr] = useGetData("Foods");
 
   const { items, totalPrice } = cart;
   let isZero = true;
@@ -27,16 +17,37 @@ export default function Cart({ cart, setCart }) {
   }
 
   const Payment = () => {
-    const ok = confirm("Are you sure to pay right now?");
-    if (ok) {
-      setTimeout(() => {
-        editTable(
-          { ...userInfo, expenses: userInfo.expenses + totalPrice },
-          "Members",
-          userInfo.fieldId
-        );
-      }, 2000);
-      setCart({ items: [], totalPrice: 0 });
+    if (totalPrice > 0) {
+      const ok = confirm(`${totalPrice} TK Will be debited from your BKash account, Are you sure to pay right now?`);
+      if (ok) {
+        setTimeout(() => {
+          for (let i of memberArr) {
+            if (i.email == userInfo.email) {
+              console.log(i);
+              console.log(totalPrice);
+              console.log(i.expenses);
+              editTable(
+                { ...i, expenses: i.expenses + totalPrice },
+                "Members",
+                i.fieldId
+              );
+            }
+          }
+
+          for (let i of items) {
+            for (let j of FoodArr) {
+              if (i.name == j.type) {
+                editTable(
+                  { ...j, quantity: j.quantity - i.quantity },
+                  "Foods",
+                  j.fieldId
+                );
+              }
+            }
+          }
+          setCart({ items: [], totalPrice: 0 });
+        }, 2000);
+      }
     }
   };
   return (
