@@ -72,7 +72,7 @@ export default function App() {
       className={
         loginRegis == "/register"
           ? "flex justify-center items-center h-[900px] text-white bg-[#0A0C1F]"
-          : "flex justify-center items-center h-[700px] text-white bg-[#0A0C1F]"
+          : "flex justify-center items-center h-screen text-white bg-[#0A0C1F]"
       }
     >
       <Routes>

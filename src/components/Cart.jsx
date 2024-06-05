@@ -48,8 +48,6 @@ export default function Cart({ cart, setCart, today }) {
     }
   }, [today, userInfo]);
 
-  
-
   const Payment = () => {
     if (uiPrice > 0) {
       const ok = confirm(
