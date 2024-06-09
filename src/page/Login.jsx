@@ -39,7 +39,7 @@ const Login = ({setLoginRegis, setIsLogedIn, setIsAdmin}) => {
   };
 
   return (
-    <div className="flex justify-center items-center h-[700px] text-white bg-[#0A0C1F]">
+    <div className="flex justify-center items-center h-screen text-white bg-[#0A0C1F]">
       <div className="flex flex-col justify-center items-center text-white text-center border-2 border-sky-700 p-5 rounded-[10px]">
         <form onSubmit={handleSubmit(submitForm)}>
           <FieldSet label="Enter Login Details">
